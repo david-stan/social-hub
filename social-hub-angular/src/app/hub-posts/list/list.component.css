@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.info-text {
+  text-align: center;
+}
+
+.header-image {
+  background-image: url('https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png');
+  background-size: cover;
+}
+
+.title {
+  margin: auto auto;
+}
+
+.content {
+  margin: 2rem auto;
+}
