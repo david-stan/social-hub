@@ -1,6 +1,7 @@
 import { HubPost } from './hub-post.model';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class HubPostService {
@@ -8,8 +9,14 @@ export class HubPostService {
 
   private postsUpdated = new Subject<HubPost[]>();
 
+  constructor(private http: HttpClient) {}
+
   getPosts() {
-    return [...this.posts];
+    this.http.get<{message: string, posts: HubPost[]}>('http://localhost:3000/api/posts')
+      .subscribe((postData) => {
+        this.posts = postData.posts;
+        this.postsUpdated.next([...this.posts]);
+      });
   }
 
   getPostUpdateListener() {
@@ -17,7 +24,7 @@ export class HubPostService {
   }
 
   addPost(postTitle: string, postContent: string) {
-    const post: HubPost = {title: postTitle, content: postContent};
+    const post: HubPost = {id: null, title: postTitle, content: postContent};
     this.posts.push(post);
     this.postsUpdated.next([...this.posts]);
   }
